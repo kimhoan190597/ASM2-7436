@@ -1,0 +1,110 @@
+﻿@model ApplicationDevelopment.WebMVC.Models.CandidateViewModel
+@using ApplicationDevelopment.WebMVC.Enums
+
+@{
+    ViewData["Title"] = "Create";
+    bool isCreate = Model == null;
+    string buttonName = isCreate ? "Create" : "Update";
+    string actionName = isCreate ? "Create" : "Edit";
+}
+
+<!-- Thêm link Font Awesome vào đầu trang -->
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<h1>Create Candidate <i class="fas fa-seedling" style="color: #4CAF50;"></i></h1>
+
+<hr />
+<div class="row" style="background-color: #F5F5DC; border-radius: 10px; padding: 20px;">
+    <div class="col-md-4" style="background-color: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <form asp-action="@actionName">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input asp-for="Id" type="hidden" class="form-control" />
+                <input asp-for="Name" type="hidden" class="form-control" />
+            
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-user" style="color: #FF6347;"></i> Full Name
+                </label>
+                <input asp-for="FullName" class="form-control" style="border-radius: 5px; border: 1px solid #ddd; padding: 8px;" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="display: flex; justify-content: space-around;">
+                @foreach (var item in Enum.GetValues(typeof(GenderEnum)))
+                {
+                    string checkedStatus = (!isCreate && (GenderEnum)item == Model.Gender)
+                    ? "checked" : "";
+                        <label class="control-label" style="font-weight: bold; color: #FF6347;">
+                            <i class="fas fa-genderless" style="color: #FF6347;"></i>
+                            <input name="Gender" type="radio" value="@((GenderEnum)item)" @checkedStatus />
+                        @item.ToString()
+                        </label>
+                }
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-birthday-cake" style="color: #FF6347;"></i> Date of Birth
+                </label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-envelope" style="color: #FF6347;"></i> Email
+                </label>
+                <input asp-for="Email" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-phone-alt" style="color: #FF6347;"></i> Phone
+                </label>
+                <input asp-for="Phone" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Occupation" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-briefcase" style="color: #FF6347;"></i> Occupation
+                </label>
+                <select asp-for="Occupation" asp-items="ViewBag.Occupations" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;">
+                </select>
+                <span asp-validation-for="Occupation" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="text-align: center">
+                <input type="submit" value="@buttonName" class="btn btn-primary" style="background-color: #FF6347; border: none; border-radius: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer;" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        @await Component.InvokeAsync("CandidateList")
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #FFFAF0, #F0E68C);
+        font-family: 'Arial', sans-serif;
+    }
+    h1 {
+        color: #4CAF50;
+        font-family: 'Georgia', serif;
+    }
+    .form-control {
+        border-radius: 5px;
+    }
+    .btn-primary:hover {
+        background-color: #FF4500;
+    }
+</style>

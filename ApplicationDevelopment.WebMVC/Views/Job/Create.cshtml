@@ -1,0 +1,136 @@
+﻿@using ApplicationDevelopment.WebMVC.Commons
+@model ApplicationDevelopment.WebMVC.Models.JobViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    var isCreate = Model == null || Model.Id == Guid.Empty;
+    var actionString = isCreate ? "Create" : "Edit";
+    var buttonName = isCreate ? "Create" : "Update";
+}
+
+<h1 class="text-center" style="color: #4CAF50;">Create a Job</h1>
+<button type="button" onclick="openModalCreateJobType();" class="btn btn-info mb-3">Create a Job Type <i class="fas fa-plus"></i></button>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="@actionString">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" type="hidden" class="form-control" />
+
+            <div id="announcement">@ViewData[ViewBags.ANNOUNCEMENT]</div>
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" style="border-radius: 5px;"/>
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea asp-for="Description" class="form-control" style="border-radius: 5px;"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Requirements" class="control-label"></label>
+                <textarea asp-for="Requirements" class="form-control" style="border-radius: 5px;"></textarea>
+                <span asp-validation-for="Requirements" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="JobTypeId" class="control-label">Job Type</label>
+                <select asp-for="JobTypeId" asp-items="ViewBag.JobTypes" class="form-control" style="border-radius: 5px;"></select>
+                <span asp-validation-for="JobTypeId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="text-align: center;">
+                <input type="submit" value="@buttonName" class="btn btn-primary" style="border-radius: 5px;"/>
+            </div>
+        </form>
+    </div>
+
+    <div id="divJobList" class="col-md-8">
+        <h3 class="text-center" style="color: #4CAF50;">Danh sách công việc đã tạo</h3>
+        @await Component.InvokeAsync("JobList")
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Add any logic you want to run when the document is loaded
+        });
+
+        function openModalCreateJobType(){
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("Create", "JobType")',
+                success: function (data, textStatus, XMLHttpRequest) {
+                    openModal("Job Type", data, modalSizes.large);
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                },
+            });
+        }
+
+        function createJobType(){
+            let formJobType = document.getElementById("formJobType");
+            let jobTypeData;
+            if(formJobType) {
+                let inputId = formJobType.querySelector("input[Id='Id']");
+                let inputName = formJobType.querySelector("input[Id='Name']");
+                let textareaDescription = formJobType.querySelector("textarea[Id='Description']");
+                jobTypeData = {
+                    id: inputId.value,
+                    name: inputName.value,
+                    description: textareaDescription.value
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Create", "JobType")',
+                data: {jobTypeVM: jobTypeData},
+                success: function (response) {
+                    closeModal();
+                    reloadJobList();
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                },
+            });
+        }
+
+        function deleteJob(idJob){
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Delete", "Job")',
+                data: { idJob },
+                success: function (response) {
+                    reloadJobList();
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                },
+            });
+        }
+
+        function reloadJobList(){
+            $.ajax({
+                type: "GET",
+                url: '@Url.Action("GetAll", "Job")',
+                success: function (response) {
+                    let divJobList = document.getElementById("divJobList");
+                    if(divJobList){
+                        divJobList.innerHTML = response;
+                    }
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                },
+            });
+        }
+    </script>
+}

@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ApplicationDevelopment.WebMVC</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ApplicationDevelopment.WebMVC.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <partial name="_NavigationPartialView" />
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - ApplicationDevelopment.WebMVC - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <button id="buttonOpenModal" type="button" hidden class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myAppModal">
+        Launch modal
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="myAppModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div id="divModalDialog" class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="modal-title fs-5" id="divModalTitle">Modal title</div>
+                    <button id="btnCloseModal" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="divModalBody" class="modal-body">
+                    @* Đây là nội dung chính của Modal *@
+                </div>
+                <div id="divModalError" class="modal-error-message">
+                    @* Đây là thông báo lỗi trên Form *@
+                </div>
+                @* <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> *@
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

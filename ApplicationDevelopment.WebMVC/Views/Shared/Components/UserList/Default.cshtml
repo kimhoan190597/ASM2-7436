@@ -1,0 +1,32 @@
+﻿@model List<ApplicationDevelopment.WebMVC.Models.User>
+
+<table class="table">
+    <tr>
+        <th width="5%">No</th>
+        <th width="20%">Full Name</th>
+        <th width="15%">Date of Birth</th>
+        <th width="15%">Gender</th>
+        <th width="15%">Occupation</th>
+        <th width="30%">Action</th>
+    </tr>
+    @if(Model != null && Model.Count > 0)
+    {
+        var position = 1;
+        foreach(var user in Model)
+        {
+            <tr>
+                <td>@(position++)</td>
+                <td>@user.FullName</td>
+                <td>@user.DateOfBirth</td>
+                <td>@user.Gender.ToString()</td>
+                <td>@user.Occupation.ToString()</td>
+                <th>
+                    <a href="~/User/Edit?idUser=@user.Id" class="btn btn-primary">Edit</a>
+                </th>
+            </tr>
+        }
+    }
+
+    
+
+</table>

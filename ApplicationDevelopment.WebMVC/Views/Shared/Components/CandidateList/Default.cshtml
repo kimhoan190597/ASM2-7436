@@ -1,0 +1,31 @@
+﻿@model List<ApplicationDevelopment.WebMVC.Models.CandidateViewModel>
+
+<table class="table">
+    <tr>
+        <th width="5%">No</th>
+        <th width="20%">Full Name</th>
+        <th width="15%">Date of Birth</th>
+        <th width="15%">Gender</th>
+        <th width="15%">Occupation</th>
+        <th width="30%">Action</th>
+    </tr>
+    @if(Model != null && Model.Count > 0)
+    {
+        foreach(var candidate in Model)
+        {
+            <tr>
+                <td>@candidate.Position</td>
+                <td>@candidate.FullName</td>
+                <td>@candidate.DateOfBirth</td>
+                <td>@candidate.Gender.ToString()</td>
+                <td>@candidate.Occupation.ToString()</td>
+                <th>
+                    <a href="~/Candidate/Edit?idCandidate=@candidate.Id" class="btn btn-primary">Edit</a>
+                </th>
+            </tr>
+        }
+    }
+
+    
+
+</table>

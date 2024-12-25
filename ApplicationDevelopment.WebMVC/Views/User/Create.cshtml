@@ -1,0 +1,79 @@
+﻿@using ApplicationDevelopment.WebMVC.Enums
+@model ApplicationDevelopment.WebMVC.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+    // bool isCreate = (Model == null) ? true : false;
+    bool isCreate = Model == null;
+    string buttonName = isCreate ? "Create" : "Update";
+    string actionName = isCreate ? "Create" : "Edit";
+}
+
+<h1>Create a new user</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="@actionName">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" hidden class="form-control" />
+
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" type="date" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="display: flex; justify-content: space-around;">
+                @foreach (var item in Enum.GetValues(typeof(GenderEnum)))
+                {
+                    string checkedStatus = (!isCreate && (GenderEnum)item == Model.Gender)
+                    ? "checked" : "";
+                    <label class="control-label">
+                        <input name="Gender" type="radio" value="@((GenderEnum)item)" @checkedStatus />
+                        @item.ToString()
+                    </label>
+                }
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Occupation" class="control-label"></label>
+                <select asp-for="Occupation" asp-items="ViewBag.Occupations" class="form-control"></select>
+                <span asp-validation-for="Occupation" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Phone" class="control-label"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone" class="text-danger"></span>
+            </div>
+            <div class="form-group" style="text-align: center">
+                <input type="submit" value="@buttonName" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+
+    <div class="col-md-8">
+        @await Component.InvokeAsync("UserList")
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+
+    </script>
+}

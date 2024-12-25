@@ -1,0 +1,93 @@
+﻿@model ApplicationDevelopment.WebMVC.Models.EnterpriseViewModel
+
+@{
+    ViewData["Title"] = "Create";
+    bool isCreate = Model == null;
+    string buttonName = isCreate ? "Create" : "Update";
+    string actionName = isCreate ? "Create" : "Edit";
+}
+
+<!-- Thêm link Font Awesome vào đầu trang -->
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+</head>
+
+<h1>Create Enterprise <i class="fas fa-leaf" style="color: #4CAF50;"></i></h1>
+
+<hr />
+<div class="row" style="background-color: #F5F5DC; border-radius: 10px; padding: 20px;">
+    <div class="col-md-4" style="background-color: #fff; padding: 15px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);">
+        <form asp-action="@actionName">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="Id" type="hidden" class="form-control" />
+
+            <div class="form-group">
+                <label asp-for="Name" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-building" style="color: #FF6347;"></i> Enterprise Name
+                </label>
+                <input asp-for="Name" class="form-control" style="border-radius: 5px; border: 1px solid #ddd; padding: 8px;" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-map-marker-alt" style="color: #FF6347;"></i> Address
+                </label>
+                <input asp-for="Address" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-envelope" style="color: #FF6347;"></i> Email
+                </label>
+                <input asp-for="Email" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Hotline" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-phone-alt" style="color: #FF6347;"></i> Hotline
+                </label>
+                <input asp-for="Hotline" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;" />
+                <span asp-validation-for="Hotline" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TaxNumber" class="control-label" style="font-weight: bold; color: #4CAF50;">
+                    <i class="fas fa-id-card" style="color: #FF6347;"></i> Tax Number
+                </label>
+                <input asp-for="TaxNumber" class="form-control" style="border-radius: 5px; border: 1px solid #ddd;" />
+                <span asp-validation-for="TaxNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group" style="text-align: center">
+                <input type="submit" value="@buttonName" class="btn btn-primary" style="background-color: #FF6347; border: none; border-radius: 5px; padding: 10px 20px; font-size: 16px; cursor: pointer;" />
+            </div>
+        </form>
+    </div>
+    <div class="col-md-8">
+        @await Component.InvokeAsync("EnterpriseList")
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<style>
+    body {
+        background: linear-gradient(to right, #FFFAF0, #F0E68C);
+        font-family: 'Arial', sans-serif;
+    }
+    h1 {
+        color: #4CAF50;
+        font-family: 'Georgia', serif;
+    }
+    .form-control {
+        border-radius: 5px;
+    }
+    .btn-primary:hover {
+        background-color: #FF4500;
+    }
+</style>

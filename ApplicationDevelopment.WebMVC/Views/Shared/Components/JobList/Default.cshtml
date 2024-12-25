@@ -1,0 +1,30 @@
+﻿@model List<ApplicationDevelopment.WebMVC.Models.JobViewModel>
+
+<table class="table">
+    <tr>
+        <th width="10%">No</th>
+        <th width="15%">Job</th>
+        <th width="30%">Description</th>
+        @* <th width="15%">Requirements</th> *@
+        <th width="15%">Job Type</th>
+        <th width="30%">Action</th>
+    </tr>
+    @if(Model != null && Model.Count > 0)
+    {
+        var position = 1;
+        foreach(var job in Model)
+        {
+            <tr>
+                <td>@(position++)</td>
+                <td>@job.Name</td>
+                <td>@job.Description</td>
+                <td>@job.JobType</td>
+                @* <td>@job.JobTypeId</td> *@
+                <th>
+                    <a href="~/Job/Edit?idJob=@job.Id" class="btn btn-primary">Edit</a>
+                    <button type="button" onclick="deleteJob('@job.Id')" class="btn btn-danger">Delete</button>
+                </th>
+            </tr>
+        }
+    }
+</table>

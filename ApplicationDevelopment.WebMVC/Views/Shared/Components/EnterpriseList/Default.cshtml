@@ -1,0 +1,33 @@
+﻿@model List<ApplicationDevelopment.WebMVC.Models.EnterpriseViewModel>
+
+<table class="table">
+    <tr>
+        <th width="5%">No</th>
+        <th width="20%">Name</th>
+        <th width="10%">Tax Number</th>
+        <th width="15%">Address</th>
+        <th width="15%">Hotline</th>
+        <th width="15%">Email</th>
+        <th width="20%">Action</th>
+    </tr>
+    @if(Model != null && Model.Count > 0)
+    {
+        foreach(var enterprise in Model)
+        {
+            <tr>
+                <td>@enterprise.Position</td>
+                <td>@enterprise.Name</td>
+                <td>@enterprise.TaxNumber</td>
+                <td>@enterprise.Address</td>
+                <td>@enterprise.Hotline</td>
+                <td>@enterprise.Email</td>
+                <th>
+                    <a href="~/Enterprise/Edit?idEnterprise=@enterprise.Id" class="btn btn-primary">Edit</a>
+                </th>
+            </tr>
+        }
+    }
+
+    
+
+</table>
